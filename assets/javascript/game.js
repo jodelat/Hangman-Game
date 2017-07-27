@@ -32,7 +32,6 @@
   resetLength();
 
 
-
   document.onkeyup = function(event) {
 
 
@@ -65,7 +64,7 @@
 
     var html =
       "<p>Guessed Characters: " + guessed + "</p>" + "<br>" +
-      "<p>You get 1 more try then the length of the word</p>" + "<br>" +
+      "<p>You get as many tries as the length of the word</p>" + "<br>" +
       "<p>Theme: NBA Basketball Teams! </p>" + "<br>" +
       "<p>Length of word: " + Length + "</p>" +
       "<p>Games Played: " + games + "</p>";
