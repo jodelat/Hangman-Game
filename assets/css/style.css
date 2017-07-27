@@ -1,0 +1,21 @@
+body{
+  background: black;
+  font-family: arial;
+  color: white;
+  font-size: 30px;
+  text-align: center;
+}
+
+hr{
+  width: 70%;
+}
+
+.container{
+  border-style: dashed;
+  border-width: 5px;
+  border-color: white;
+  width: 40%;
+  position: fixed;
+  left: 30%;
+  top: 22%;
+}
