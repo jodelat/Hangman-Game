@@ -53,7 +53,8 @@
         if (guessed.length && guessed.indexOf(random[i]) !== -1) {
           output.push(random[i]);
           resetLength();
-        } else {
+        }
+        else {
           output.push("-");
           resetLength();
         }
