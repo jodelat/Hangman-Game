@@ -6,80 +6,76 @@ myAudio.addEventListener('ended', function() {
 }, false);
 myAudio.play();
 
-var Length = [];
-var teams = ["lakers", "celtics", "bulls", "heat", "cavs", "warriors", "timberwolves", "spurs", "kings", "wizards", "raptors", "hornets", "sixers", "suns", "clippers", "rockets", "jazz", "pelicans", "nets", "hawks", "knicks", "thunder", "bucks",
+var guess = [];
+
+var names = ["lakers", "celtics", "bulls", "heat", "cavs", "warriors", "timberwolves", "spurs", "kings", "wizards", "raptors", "hornets", "sixers", "suns", "clippers", "rockets", "jazz", "pelicans", "nets", "hawks", "knicks", "thunder", "bucks",
   "mavericks", "trailblazers", "pacers", "pistons", "nuggets", "magic", "grizzlies"];
+
+var randomWord = names[Math.floor(Math.random()*names.length)];
+
+var guessesLeft = 10;
+
 var wins = 0;
+
 var losses = 0;
-var games = 0;
-var guessesLeft = [];
-var guessed = [];
 
-function resetBracket() {
-  guessed = [];
+function lose(){
+
+ if(guessesLeft < 1){
+   losses++;
+   reset();
 }
 
-var random = teams[Math.floor(Math.random() * teams.length)];
-
-function resetGuessLength() {
-  guessesLeft = random.length;
 }
 
-function resetLength() {
-  Length = random.length;
+function isLetter(str) {
+  return str.length === 1 && str.match(/[a-z]/i);
 }
 
-function resetGame() {
-  random = teams[Math.floor(Math.random() * teams.length)];
+function reset(){
+  randomWord = names[Math.floor(Math.random()*names.length)];
+  guessesLeft = 10;
+  guess = [];
 }
 
-resetLength();
-resetGuessLength();
+function getUserString(){
+  var output = [];
 
-document.onkeyup = function(event) {
-  guessesLeft--;
+  for(var i = 0; i < randomWord.length; i++){
+      if(guess.indexOf(randomWord[i]) !== -1){
+        output.push(randomWord[i]);
 
-  if (guessed.length === random.length) {
-    resetBracket();
-    resetGame();
-    resetLength();
-    resetGuessLength();
-    games++;
-  }
-
-  var player = String.fromCharCode(event.keyCode).toLowerCase();
-  guessed.push(player);
-
-
-  function getUserVisibleString() {
-    var output = [];
-
-    for (var i = 0; i < random.length; i++) {
-      if (guessed.length && guessed.indexOf(random[i]) !== -1) {
-        output.push(random[i]);
-        resetLength();
+        if(output.length === randomWord.length && isLetter(output[i])){
+          randomWord = names[Math.floor(Math.random()*names.length)];
+          wins++;
+          reset();
+        }
       }
-      else {
+      else{
         output.push("-");
-        resetLength();
+
       }
-    }
-    return output.join(" ");
+
   }
+  return output.join(" ");
+}
 
+document.onkeyup = function(event){
+lose();
+var player = String.fromCharCode(event.keyCode).toLowerCase();
+guess.push(player);
+guessesLeft--;
 
+getUserString();
+console.log(randomWord);
   var html =
-    "<p>Guessed Characters: " + guessed + "</p>" + "<br>" +
-    "<p>You get as many tries as the length of the word</p>" + "<br>" +
-    "<p>Theme: NBA Basketball Teams! </p>" + "<br>" +
-    "<p>Length of word: " + Length + "</p>" +
-    "<p>Guesses Left:" + guessesLeft + "</p>" +
-    "<p>Games Played: " + games + "</p>";
+  "<p>Guessed Characters: " + guess + "</p>" + "<br>" +
+  "<p>Guesses Left:" + " " + guessesLeft + "</p>" +
+  "<p> wins:" + " " + wins + "</p>" +
+  "<p> losses:" + " " + losses + "</p>";
 
-  document.querySelector("#game").innerHTML = html;
-  document.querySelector("#game1").innerHTML = getUserVisibleString();
+document.querySelector("#game").innerHTML = html;
+document.querySelector("#game1").innerHTML = getUserString();
 
-  console.log(guessed);
-  console.log(Length);
-  console.log(random);
+
 }
